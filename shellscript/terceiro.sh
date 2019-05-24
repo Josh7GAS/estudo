@@ -7,7 +7,7 @@ echo "Argumento" $2
 
 #numero de argumentos passados
 
-echo "Forma passados um total de $# argumentos"
+echo "Foram passados um total de $# argumentos"
 
 #lista de todos os argumentos
 
