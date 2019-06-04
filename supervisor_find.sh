@@ -1,27 +1,45 @@
 #!/bin/bash
 
-function encontrar_worker()
+encontrar_worker()
 {
 
-echo -n '{"data":['
+    echo -n '{"data":['
 
-    for DOCKER in $(sudo docker ps -a |awk -F ' ' '{print $1, "\t\t"}'); do
-    echo -n "{\"{#DOCKER}\": \"${DOCKER}\"},"
+    for WORKER in $(supervisorctl status all|awk -F ' ' '{print $1, "\t\t"}'); do
+    echo -n "{\"{#WORKER}\": \"${WORKER}\"},"
 
     done | sed -e 's:\},$:\}:'
 
-echo -n ']}'
+    echo -n ']}'
 
 }
 
-encontrar_worker
-encontrar_status
-
-function encontrar_status()
-{
+encontrar_status()
+{   
      SUPERVISOR_WORKER=${1}
-     supervisorctl status ${DOCKER} |awk -F ' ' '{print $2, "\t\t"}' 
+     supervisorctl status ${SUPERVISOR_WORKER} |awk -F ' ' '{print $2, "\t\t"}' 
 }
 
-
-opt arg
+while getopts "ws:" OPTION; do
+    case $OPTION in 
+    w) 
+     encontrar_worker
+      ;;
+    s)
+        STATUS=$OPTARG
+        for COLUNA in $(supervisorctl status all|awk -F ' ' '{print $1, "\t\t"}'); do 
+            if [[ ! $STATUS =~ ${COLUNA} ]] 
+                then
+                    echo "Worker não existe" 
+                    exit 1
+            else
+                encontrar_status
+            fi
+        done
+    ;;
+    *)
+     echo "Opção Incorreta"
+     exit 1
+     ;;
+    esac
+done

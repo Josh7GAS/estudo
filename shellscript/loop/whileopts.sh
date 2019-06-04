@@ -12,7 +12,7 @@ while getopts "brgc:" OPTION; do #getopts passsa os argumentos argumentos
         COLOR=GREEN
         ;;
     c)                  #se a opção dada for verde
-        COLOR=$OPTARG
+        COLOR=$OPTARG #a cor pode ser escrita coo argumento dentro dos seguintes parametros
         [[ ! $COLOR =~ BLUE|RED|GREEN ]] && {
             echo "Incorrect options provided"
             exit 1
