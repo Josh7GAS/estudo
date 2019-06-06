@@ -24,14 +24,20 @@ read IDADEC
 ola
 #comparando a idade das 3 pessoas 
 function comparacao(){
-if [[ ${IDADEA} -g ${IDADEB} ||  ]]
-then 
-echo "${NOMEA} é o mais velho ${NOMEB}"
-else 
-if [[ ${IDADEB} -g "é o mais velho" ${IDADEC} ]]
-fi
+    if [[ ${IDADEA} -gt ${IDADEB}]] && [[${IDADEA} -gt ${IDADEC} ]]
+        then 
+            echo "${NOMEA} é o mais velho ${NOMEB}"
+        else    
+            if [[ ${IDADEB} -gt ${IDADEC} && ${IDADEB} -gt ${IDADEA} ]]
+                then 
+                echo "${NOMEB} é o mais velho"
+            else
+                   if [[ ${IDADEC} -gt ${IDADEA} && ${IDADEC} -gt ${IDADEA} ]]
+                    then 
+                    echo "${NOMEB} é o mais velho"
+    fi
 
-if [[ ${}]]
 }
+comparacao
 
 #mostrar o resultado das comparações
